@@ -5,14 +5,14 @@ var express 	= require("express"),
 		seedDB		= require("./seeds.js")
  		app 			= express();
 
-// App Configuration
+// app configuration
 mongoose.connect("mongodb://localhost:27017/syllabus", {useNewUrlParser: true});
 app.set("view engine", "ejs")
 app.use(express.static("public"));
 
-// Empty Database
+// empty database each time app runs
 seedDB();
-// Fake Data
+// fake seed data for app
 var classes = [
 	{
 		name: "linux"
@@ -39,12 +39,7 @@ app.get("/plan", function(req, res){
 	res.render("classes", {classes: classes});
 });
 
-
-
-
-
-
-
+// server setup
 app.listen(3000, function(){
 	console.log("server is started")
 });
