@@ -1,0 +1,24 @@
+<-------------- ToDo Application ------------->
+App Steps
+1. Setup Application 
+		- create app folder
+		- npm init
+		- express installation
+		- create default app.js file
+		- install necessary dependencies (express, ejs, mongoose)
+		- git init 
+
+2. Setup Routes
+<--- Routes --->
+Landing Page
+Index - Get TODOs
+Show - Show a TODO
+New - Get form for a new TODO
+Create - Create a new TODO
+Edit - Get form to edit a TODO
+Update - Update a TODO
+Destroy - Delete a TODO
+
+<--- Functionality --->
+- Authentication/Authorization
+- Error Handling
