@@ -31,13 +31,12 @@ var data = [
 	},
 ]
 */
-
-// ROUTES
-// landing route
+// LANDING PAGE
 app.get("/", function(req, res){
 	res.render("landing")
 });
 
+// ROUTES
 // INDEX ROUTE - get all classes
 app.get("/classes", function(req, res){
 	Classes.find({}, function(err, foundClasses){
@@ -57,12 +56,33 @@ app.get("/classes/new", function(req, res){
 // CREATE ROUTE - create a new class
 app.post("/classes", function(req, res){
 	var name = req.body.name;
-	var newClass = {name: name};
+	var institution = req.body.institution;
+	var date = req.body.date;
+	var topic = req.body.topic;
+	var description = req.body.description;
+	var newClass = {
+		name: name, 
+		institution: institution, 
+		date: date,
+		topic: topic,
+		description: description
+	};
 	Classes.create(newClass, function(err, createdClass){
 		if(err){
 			console.log(err);
 		} else {
 			res.redirect("/classes");
+		}
+	});
+});
+
+// SHOW ROUTE - show information for one class
+app.get("/classes/:id", function(req, res){
+	Classes.findById(req.params.id, function(err, foundClass){
+		if(err){
+			console.log(err)
+		} else {
+			res.render("show", {classitem: foundClass});
 		}
 	});
 });

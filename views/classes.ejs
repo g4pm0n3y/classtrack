@@ -10,12 +10,12 @@
 
 	<div class="row">
 		<% classes.forEach(function(classitem){ %>
-		   	<div class="col-lg-3 mt-3">
+		   	<div class="col-lg-4 mt-3">
 			  	<div class="card">
       			<div class="card-body">
-        			<h5 class="card-title"><%=classitem.name%></h5>
-        			<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        			<a href="#" class="btn btn-primary">Learn More!</a>
+        			<h5 class="card-title"><strong><%=classitem.name%></strong></h5>
+        			<p class="card-text"><%=classitem.description%></p>
+        			<a href="/classes/<%=classitem.id%>" class="btn btn-primary">Learn More!</a>
       			</div>
    				</div>
 		   	</div>

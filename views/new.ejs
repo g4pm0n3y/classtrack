@@ -1,9 +1,45 @@
 <%include partials/header%>
 
 <div class="container">
-	<h1>Create a Class!</h1>
-	<form action="/classes" method="POST">
-		<input class="d-block" type="text" name="name" placeholder="name">
-		<button class="btn btn-success mt-2">Create Class</button>
-	</form>
+	<div class="row justify-content-center">
+		<div class="col-lg-6">
+			<h1>Create a Class!</h1>
+			<form action="/classes" method="POST">
+				<div class="input-group mb-3">
+		  		<div class="input-group-prepend">
+		    		<span class="input-group-text">Name of Class</span>
+		  		</div>
+		  		<input type="text" name="name" class="form-control" required">
+				</div>
+				<div class="input-group mb-3">
+		  		<div class="input-group-prepend">
+		    		<span class="input-group-text">Institution</span>
+		  		</div>
+		  		<input type="text" name="institution" class="form-control" required">
+				</div>		
+				<div class="input-group mb-3">
+		  		<div class="input-group-prepend">
+		    		<span class="input-group-text">Date Completed</span>
+		  		</div>
+		  		<input type="text" name="date" class="form-control" required">
+				</div>
+				<div class="input-group mb-3">
+		  		<div class="input-group-prepend">
+		    		<span class="input-group-text">Area of Study</span>
+		  		</div>
+		  		<input type="text" name="topic" class="form-control" required">
+				</div>
+				<div class="input-group mb-3">
+		  		<div class="input-group-prepend">
+		    		<span class="input-group-text">Description</span>
+		  		</div>
+		  		<input type="text" name="description" class="form-control" required">
+				</div>
+				<button class="btn btn-success mt-2">Create</button>
+				<a class="btn btn-danger mt-2" name="description" href="/classes">Cancel</a>
+			</form>
+		</div>
+	</div>
 </div>
+
+<%include partials/footer%>
