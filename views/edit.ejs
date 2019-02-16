@@ -4,39 +4,39 @@
 	<div class="row justify-content-center">
 		<div class="col-lg-6">
 			<h1>Create a Class!</h1>
-			<form action="/classes" method="POST">
+			<form action="/classes/<%=classitem._id%>?_method=PUT" method="POST">
 				<div class="input-group mb-3">
 		  		<div class="input-group-prepend">
 		    		<span class="input-group-text">Name of Class</span>
 		  		</div>
-		  		<input type="text" name="name" class="form-control" required">
+		  		<input type="text" name="name" class="form-control" value="<%=classitem.name%>" required">
 				</div>
 				<div class="input-group mb-3">
 		  		<div class="input-group-prepend">
 		    		<span class="input-group-text">Institution</span>
 		  		</div>
-		  		<input type="text" name="institution" class="form-control" required">
+		  		<input type="text" name="institution" class="form-control" value="<%=classitem.institution%>" required">
 				</div>		
 				<div class="input-group mb-3">
 		  		<div class="input-group-prepend">
 		    		<span class="input-group-text">Date Completed</span>
 		  		</div>
-		  		<input type="text" name="date" class="form-control" required">
+		  		<input type="text" name="date" class="form-control" value="<%=classitem.date%>" required">
 				</div>
 				<div class="input-group mb-3">
 		  		<div class="input-group-prepend">
 		    		<span class="input-group-text">Topics</span>
 		  		</div>
-		  		<input type="text" name="topic" class="form-control" required">
+		  		<input type="text" name="topic" class="form-control" value="<%=classitem.topic%>" required">
 				</div>
 				<div class="input-group mb-3">
 		  		<div class="input-group-prepend">
 		    		<span class="input-group-text">Description</span>
 		  		</div>
-		  		<input type="text" name="description" class="form-control" required">
+		  		<input type="text" name="description" class="form-control" value="<%=classitem.description%>" required">
 				</div>
-				<button class="btn btn-success mt-2">Create</button>
-				<a class="btn btn-danger mt-2" name="description" href="/classes">Cancel</a>
+				<button class="btn btn-success mt-2">Update</button>
+				<a class="btn btn-danger mt-2" name="description" href="/classes/<%=classitem._id%>">Cancel</a>
 			</form>
 		</div>
 	</div>

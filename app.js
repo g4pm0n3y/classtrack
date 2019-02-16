@@ -1,17 +1,18 @@
-var express 		= require("express"),
-		mongoose 		= require("mongoose"),
-		ejs 				= require("ejs"),
-		bodyParser  = require("body-parser"),
-		Classes 		= require("./models/classes"),
-		seedDB			= require("./seeds.js")
- 		app 				= express();
+var express 				= require("express"),
+		mongoose 				= require("mongoose"),
+		ejs 						= require("ejs"),
+		bodyParser  		= require("body-parser"),
+		methodOverride 	= require("method-override"),
+		Classes 				= require("./models/classes"),
+		seedDB					= require("./seeds.js")
+ 		app 						= express();
 
 // app configuration
 mongoose.connect("mongodb://localhost:27017/classtrack", {useNewUrlParser: true});
 app.set("view engine", "ejs")
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false}));
-
+app.use(methodOverride("_method"));
 // empty database each time app runs
 //seedDB();
 // fake seed data for app
@@ -83,6 +84,28 @@ app.get("/classes/:id", function(req, res){
 			console.log(err)
 		} else {
 			res.render("show", {classitem: foundClass});
+		}
+	});
+});
+
+// EDIT ROUTE - get form to update a route
+app.get("/classes/:id/edit", function(req, res){
+	Classes.findById(req.params.id, function(err, foundClass){
+		if(err){
+			console.log(err)
+		} else {
+			res.render("edit", {classitem: foundClass});
+		}
+	});
+});
+
+// UPDATE ROUTE - update information for a class
+app.put("/classes/:id", function(req, res){
+	Classes.findByIdAndUpdate(req.params.id, req.body, function(err, updatedClass){
+		if(err){
+			console.log(err);
+		} else {
+			res.redirect("/classes/" + req.params.id);
 		}
 	});
 });
