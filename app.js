@@ -1,19 +1,22 @@
-var express 	= require("express"),
-		mongoose 	= require("mongoose"),
-		ejs 			= require("ejs"),
-		Classes 	= require("./models/classes"),
-		seedDB		= require("./seeds.js")
- 		app 			= express();
+var express 		= require("express"),
+		mongoose 		= require("mongoose"),
+		ejs 				= require("ejs"),
+		bodyParser  = require("body-parser"),
+		Classes 		= require("./models/classes"),
+		seedDB			= require("./seeds.js")
+ 		app 				= express();
 
 // app configuration
-mongoose.connect("mongodb://localhost:27017/syllabus", {useNewUrlParser: true});
+mongoose.connect("mongodb://localhost:27017/classtrack", {useNewUrlParser: true});
 app.set("view engine", "ejs")
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: false}));
 
 // empty database each time app runs
-seedDB();
+//seedDB();
 // fake seed data for app
-var classes = [
+/*
+var data = [
 	{
 		name: "linux"
 	},
@@ -27,6 +30,7 @@ var classes = [
 		name: "networking"
 	},
 ]
+*/
 
 // ROUTES
 // landing route
@@ -34,9 +38,33 @@ app.get("/", function(req, res){
 	res.render("landing")
 });
 
-// plan route
-app.get("/plan", function(req, res){
-	res.render("classes", {classes: classes});
+// INDEX ROUTE - get all classes
+app.get("/classes", function(req, res){
+	Classes.find({}, function(err, foundClasses){
+		if(err){
+			console.log(err);
+		} else {
+			res.render("classes", {classes: foundClasses});
+		}
+	})
+});
+
+// NEW ROUTE - get form for new classes
+app.get("/classes/new", function(req, res){
+	res.render("new");
+});
+
+// CREATE ROUTE - create a new class
+app.post("/classes", function(req, res){
+	var name = req.body.name;
+	var newClass = {name: name};
+	Classes.create(newClass, function(err, createdClass){
+		if(err){
+			console.log(err);
+		} else {
+			res.redirect("/classes");
+		}
+	});
 });
 
 // server setup

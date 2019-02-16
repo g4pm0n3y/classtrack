@@ -4,4 +4,4 @@ var planSchema = new mongoose.Schema({
 	name: String
 });
 
-module.exports = mongoose.model("Item", planSchema);
+module.exports = mongoose.model("Class", planSchema);

@@ -15,8 +15,8 @@ Landing Page
 	- created ejs view for landing page "/"
 
 Index - Get TODOs
-	- created route for plan route "/plan"
-	- created 
+	- created route for classes route "/classes"
+	- created ejs view for classes
 
 Show - Show a TODO
 New - Get form for a new TODO

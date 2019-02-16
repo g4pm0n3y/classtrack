@@ -1,9 +1,16 @@
 <%include partials/header%>
 
+
+
 <div class="container">
+		<div class="jumbotron mt-5">
+			<h1>All your Classes</h1>
+			<a class="btn btn-success" href="/classes/new">Add Class</a>
+		</div>
+
 	<div class="row">
 		<% classes.forEach(function(classitem){ %>
-		   	<div class="col-lg mt-5">
+		   	<div class="col-lg-3 mt-3">
 			  	<div class="card">
       			<div class="card-body">
         			<h5 class="card-title"><%=classitem.name%></h5>
