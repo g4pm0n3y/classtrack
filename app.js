@@ -1,6 +1,7 @@
 var express 				= require("express"),
 		mongoose 				= require("mongoose"),
 		ejs 						= require("ejs"),
+		cors						= require("cors"),
 		bodyParser  		= require("body-parser"),
 		methodOverride 	= require("method-override"),
 		Classes 				= require("./models/classes"),
@@ -9,29 +10,11 @@ var express 				= require("express"),
 
 // app configuration
 mongoose.connect("mongodb://localhost:27017/classtrack", {useNewUrlParser: true});
-app.set("view engine", "ejs")
+app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(methodOverride("_method"));
-// empty database each time app runs
-//seedDB();
-// fake seed data for app
-/*
-var data = [
-	{
-		name: "linux"
-	},
-	{
-		name: "programming"
-	},
-	{
-		name: "database"
-	},
-	{
-		name: "networking"
-	},
-]
-*/
+app.use(cors({credentials: true, origin: true}))
 // LANDING PAGE
 app.get("/", function(req, res){
 	res.render("landing")
