@@ -110,6 +110,17 @@ app.put("/classes/:id", function(req, res){
 	});
 });
 
+// DELETE ROUTE
+app.delete("/classes/:id", function(req, res){
+	Classes.findByIdAndRemove(req.params.id, function(err, deletedClass){
+		if(err){
+			console.log(err)
+		} else {
+			res.redirect("/classes");
+		}
+	})
+});
+
 // server setup
 app.listen(3000, function(){
 	console.log("server is started")
