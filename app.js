@@ -1,12 +1,14 @@
 var express 				= require("express"),
 		mongoose 				= require("mongoose"),
 		ejs 						= require("ejs"),
-		cors						= require("cors"),
 		bodyParser  		= require("body-parser"),
+		passport				= require("passport"),
+		LocalStrategy 	= require("passport-local")
 		methodOverride 	= require("method-override"),
 		Classes 				= require("./models/classes"),
-		seedDB					= require("./seeds.js")
+		User 						= require("./models/user"),
  		app 						= express();
+
 
 // app configuration
 mongoose.connect("mongodb://localhost:27017/classtrack", {useNewUrlParser: true});
@@ -14,7 +16,19 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(methodOverride("_method"));
-app.use(cors({credentials: true, origin: true}))
+
+// passport configuration
+app.use(require("express-session")({
+	secret: "go leafs go",
+	resave: false,
+	saveUninitialized: true
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // LANDING PAGE
 app.get("/", function(req, res){
 	res.render("landing")
@@ -102,6 +116,28 @@ app.delete("/classes/:id", function(req, res){
 			res.redirect("/classes");
 		}
 	})
+});
+
+// AUTH ROUTES
+// ===========
+
+// show register form
+app.get("/register", function(req, res){
+	res.render("register");
+});
+
+// create new user
+app.post("/register", function(req, res){
+	var newUser = new User({username: req.body.username});
+	User.register(newUser, req.body.password, function(err, user){
+		if(err){
+			console.log(err)
+			res.render("register")
+		} 
+		passport.authenticate("local")(req, res, function(){
+			res.redirect("classes")
+		});
+	});
 });
 
 // server setup
