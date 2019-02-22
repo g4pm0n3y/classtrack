@@ -1,11 +1,17 @@
 var mongoose = require("mongoose");
 
-var planSchema = new mongoose.Schema({
+var classSchema = new mongoose.Schema({
 	name: String,
 	institution: String,
 	date: String,
 	topic: String, 
-	description: String
+	description: String,
+	user: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User"
+		}
+	]
 });
 
-module.exports = mongoose.model("Class", planSchema);
+module.exports = mongoose.model("Class", classSchema);

@@ -34,22 +34,21 @@ app.use(function(req, res, next){
 	res.locals.currentUser = req.user;
 	next();
 });
-
 // LANDING PAGE
 app.get("/", function(req, res){
 	res.render("landing")
 });
 
 // ROUTES
-// INDEX ROUTE - get all classes
+// INDEX ROUTE - get users classes
 app.get("/classes", checkLogin, function(req, res){
-	Classes.find({}, function(err, foundClasses){
+	User.findById(req.user._id).populate("posts").exec(function(err, user){
 		if(err){
-			console.log(err);
+			console.log(err)
 		} else {
-			res.render("classes", {classes: foundClasses});
+			res.render("classes", {classes: user.posts})
 		}
-	})
+	});
 });
 
 // NEW ROUTE - get form for new classes
@@ -75,6 +74,19 @@ app.post("/classes", checkLogin, function(req, res){
 		if(err){
 			console.log(err);
 		} else {
+			// associate classes & users on both ends
+			User.findById(req.user._id, function(err, foundUser){
+				if(err){
+					console.log(err)
+				} else {
+					// associate a class with a user
+					foundUser.posts.push(createdClass)
+					foundUser.save();
+					// associate a user with a class
+					createdClass.user.push(foundUser);
+					createdClass.save();
+				}
+			});
 			res.redirect("/classes");
 		}
 	});
