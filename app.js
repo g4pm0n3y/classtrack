@@ -29,6 +29,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// pass user to all routes
+app.use(function(req, res, next){
+	res.locals.currentUser = req.user;
+	next();
+});
+
 // LANDING PAGE
 app.get("/", function(req, res){
 	res.render("landing")
@@ -36,7 +42,7 @@ app.get("/", function(req, res){
 
 // ROUTES
 // INDEX ROUTE - get all classes
-app.get("/classes", function(req, res){
+app.get("/classes", checkLogin, function(req, res){
 	Classes.find({}, function(err, foundClasses){
 		if(err){
 			console.log(err);
@@ -47,12 +53,12 @@ app.get("/classes", function(req, res){
 });
 
 // NEW ROUTE - get form for new classes
-app.get("/classes/new", function(req, res){
+app.get("/classes/new", checkLogin, function(req, res){
 	res.render("new");
 });
 
 // CREATE ROUTE - create a new class
-app.post("/classes", function(req, res){
+app.post("/classes", checkLogin, function(req, res){
 	var name = req.body.name;
 	var institution = req.body.institution;
 	var date = req.body.date;
@@ -75,7 +81,7 @@ app.post("/classes", function(req, res){
 });
 
 // SHOW ROUTE - show information for one class
-app.get("/classes/:id", function(req, res){
+app.get("/classes/:id", checkLogin, function(req, res){
 	Classes.findById(req.params.id, function(err, foundClass){
 		if(err){
 			console.log(err)
@@ -86,7 +92,7 @@ app.get("/classes/:id", function(req, res){
 });
 
 // EDIT ROUTE - get form to update a route
-app.get("/classes/:id/edit", function(req, res){
+app.get("/classes/:id/edit", checkLogin, function(req, res){
 	Classes.findById(req.params.id, function(err, foundClass){
 		if(err){
 			console.log(err)
@@ -97,7 +103,7 @@ app.get("/classes/:id/edit", function(req, res){
 });
 
 // UPDATE ROUTE - update information for a class
-app.put("/classes/:id", function(req, res){
+app.put("/classes/:id", checkLogin, function(req, res){
 	Classes.findByIdAndUpdate(req.params.id, req.body, function(err, updatedClass){
 		if(err){
 			console.log(err);
@@ -108,7 +114,7 @@ app.put("/classes/:id", function(req, res){
 });
 
 // DELETE ROUTE
-app.delete("/classes/:id", function(req, res){
+app.delete("/classes/:id", checkLogin, function(req, res){
 	Classes.findByIdAndRemove(req.params.id, function(err, deletedClass){
 		if(err){
 			console.log(err)
@@ -139,6 +145,33 @@ app.post("/register", function(req, res){
 		});
 	});
 });
+
+// show login form
+app.get("/login", function(req, res){
+	res.render("login");
+});
+
+// handle login 
+app.post("/login", passport.authenticate("local", 
+	{
+		successRedirect: "/classes",
+		failureRedirect: "/login"
+	}), function(req, res){
+});
+
+// logout route
+app.get("/logout", function(req, res){
+	req.logout();
+	res.redirect("/");
+});
+
+// middleware
+function checkLogin(req, res, next){
+	if(req.isAuthenticated()){
+		return next()
+	}
+	res.redirect("/login");
+}
 
 // server setup
 app.listen(3000, function(){
