@@ -1,10 +1,33 @@
-<%include partials/header%>
-
-<div class="container">
-	<div class="jumbotron mt-5">
-		<h1>Keep Track Of Your Learning! </h1>	
-		<a class="btn btn-success" href="/classes">Get Started!</a>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Classtrack</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="stylesheets/app.css">
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="d-flex flex-row-reverse">
+  		<div class="ptr-5">
+  			<a href="/login" id="landinglogin">Login</a>
+  		</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="jumbotron m-5">
+				<h1>Keep Track Of Your Learning! </h1>	
+				<form class="mt-5" action="/register" method="POST">
+				  <div class="form-group">
+				    <label>Username</label>
+				    <input type="text" class="form-control" name="username" placeholder="Enter Username">
+				  </div>
+				  <div class="form-group">
+				    <label>Password</label>
+				    <input type="password" class="form-control" name="password" placeholder="Password">
+				  </div>
+				  <button type="submit" class="btn btn-lg btn-success">Sign Up</button>
+			</form>
+			</div>
+		</div>
 	</div>
-</div>
-
-<%include partials/footer%>
+</body>
+</html>
